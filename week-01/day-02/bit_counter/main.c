@@ -34,12 +34,13 @@ int CountZeros (uint8_t byte)
         if (((byte >> i) & 0b00000001) == 0){
             temp++;
         }
-        // result grows to temp if there is an One, after last One won't grow result
-        if (((byte >> i) & 0b00000001) == 1){
+        // result grows with temp value if there is an One, after last One won't grow result
+        /*if (((byte >> i) & 0b00000001) == 1){
             result = temp;
-        }
+        }*/
     }
-    return result;
+    return temp;
+    //return result;
 }
 int main() {
     /* 1.
