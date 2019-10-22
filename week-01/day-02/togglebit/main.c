@@ -18,11 +18,9 @@ uint8_t ToggleBit (uint8_t byte, int bit_position)
     if (bit_position > 7 || bit_position < 0){
         return 0b00000000;
     }
-    if ((byte >> bit_position) % 2 == 1) {
-        return byte & (~(0b00000001 << bit_position));
-    }
-    return byte | (0b00000001 << bit_position);
+    return byte ^ (0b00000001 << bit_position);
 }
+
 
 int main() {
     /*
@@ -33,5 +31,6 @@ int main() {
      */
     PrintBinary(ToggleBit(0b1100, 1));
     PrintBinary(ToggleBit(0b1100, 2));
+
     return 0;
 }
