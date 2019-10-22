@@ -28,9 +28,15 @@ int CountOnes (uint8_t byte)
 int CountZeros (uint8_t byte)
 {
     int result = 0;
+    int temp = 0;
     for (int i = 0; i < 8 ; ++i) {
+        // counting zeros into temp
         if (((byte >> i) & 0b00000001) == 0){
-            result++;
+            temp++;
+        }
+        // result grows to temp if there is an One, after last One won't grow result
+        if (((byte >> i) & 0b00000001) == 1){
+            result = temp;
         }
     }
     return result;
