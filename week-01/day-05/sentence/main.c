@@ -11,7 +11,7 @@ int main()
 {
     printf("Type in a sentence:\n");
     char string[256] = "My first sentence.";
-    
+
     //scanf("%s",string);
     split_string(string);
 
