@@ -26,6 +26,8 @@ char *concatenate_strings(char *str1, char *str2)
     int size_of_str2 = size_of_string(str2);
     char *result_ptr = (char *) malloc((size_of_str1 + size_of_str2 + 1) * sizeof(char));
 
+
+    str2 = (char *) realloc(str2,(size_of_str1 + size_of_str2 + 1) * sizeof(char));
     for (int i = 0; i < size_of_str1; ++i) {
         *(result_ptr + i) = *(str1 + i);
     }
@@ -40,11 +42,16 @@ char *concatenate_strings(char *str1, char *str2)
 int main()
 {
     char str[7] = "haho";
+    char *str1 = (char *)malloc(7 * sizeof(char));
+    sprintf (str1, "%s", "haho");
+
     char str2[1000] = "na mivan mar megint aojgewkfgowjfeoawjeojfojojfaewofjawojfowajfowejfowajfowajfowjfoajefowjjeaw"
                       "wfjihfweohfaweohfowahfofhoawhfoafhoaewhohaofhoewhfoawfhowfjoajwfojfojfowajofiajofjoafjoawjefoaw"
                       "jfowjfoeaofjohefoawhfoihfoiwahfiwefhifhiweafhfihifhihihwefifhwaihfiu This is the end!!!";
-    char* new_str = concatenate_strings(str2, str);
+
+    char* new_str = concatenate_strings(str2, str1);
 
     free(new_str);
+    free(str1);
     return 0;
 }
