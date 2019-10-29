@@ -20,6 +20,8 @@ typedef struct vector
     int capacity;
 } vector_t;
 
+
+
 void init(vector_t *vec, int size, error_t* result);
 void destroy(vector_t *vec, error_t* result);
 int element_at(const vector_t *vec, int index, error_t* result);
