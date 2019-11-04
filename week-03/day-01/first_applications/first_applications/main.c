@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 void myDelay (uint32_t millisec)
 {
@@ -22,9 +23,11 @@ int main(void)
     while (1) 
     {
 		DDRB |= 0x20;
-		if (temp != (PINB & 0x80)){
+		if (!(PINB & 0x80) || temp == 0 ){
 			PORTB = PORTB ^ 0X20;
-			myDelay(500);
+			//myDelay(500);
+			_delay_ms(500);
+			temp = 0;
 		}
     }
 }
