@@ -15,14 +15,17 @@ void myDelay (uint32_t millisec)
 
 int main(void)
 {
+	DDRB &= 0b01111111;
+	PORTB |= 0b10000000; 
+	uint32_t temp = PINB & 0x80;
     /* Replace with your application code */
     while (1) 
     {
-		DDRB = 1 << DDRB5;
-		PORTB = 0 << PORTB5;
-		myDelay(500);
-		PORTB = 1 << PORTB5;
-		myDelay(500);
+		DDRB |= 0x20;
+		if (temp != (PINB & 0x80)){
+			PORTB = PORTB ^ 0X20;
+			myDelay(500);
+		}
     }
 }
 
