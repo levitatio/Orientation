@@ -106,8 +106,8 @@ int main(void)
 {
     /* Replace with your application code */
 	
-	DDRB = 0x40;
-  a8:	80 e4       	ldi	r24, 0x40	; 64
+	DDRB = 0x20;
+  a8:	80 e2       	ldi	r24, 0x20	; 32
   aa:	84 b9       	out	0x04, r24	; 4
 	
 	PCICR = 0b00000001;

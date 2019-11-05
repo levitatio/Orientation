@@ -19,7 +19,7 @@ int main(void)
 {
     /* Replace with your application code */
 	
-	DDRB = 0x40;
+	DDRB = 0x20;
 	
 	PCICR = 0b00000001;
 	PCMSK0 = 0b10000000;
