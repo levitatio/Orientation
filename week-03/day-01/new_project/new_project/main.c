@@ -25,7 +25,13 @@ int main(void)
 			butten_toggling_flag = 1;
 		}
 		
-		if (counter == 5) PORTB = 0x20;
+		if (counter == 5 && PORTB == 0x0) {
+			PORTB = 0x20;
+			counter = 0;
+		}else if (counter == 5 && PORTB == 0x20){
+			PORTB = 0x0;
+			counter = 0;
+		}
     }
 }
 
