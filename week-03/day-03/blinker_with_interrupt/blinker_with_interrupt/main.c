@@ -27,7 +27,8 @@ ISR(TIMER2_OVF_vect)
 			g_duty += 5;	
 			
 		}else {
-			g_duty -= 5;
+			g_duty -= 5
+			;
 		}
 		set_duty(g_duty);
 }
