@@ -1,0 +1,45 @@
+var_8bit	8
+var_16bit	16
+var_32bit	32
+var_float	3.140000
+array	1 2 3 4 5 6 
+var_8bit	8
+var_16bit	16
+var_32bit	32
+var_float	3.140000
+array	1 2 3 4 5 6 
+var_8bit 8
+var_16bit 16
+var_32bit 32
+var_float 3.140000
+array	1 2 3 4 5 6 
+var_8bit 8
+var_16bit 16
+var_32bit 32
+var_float 3.140000
+array 
+1 2 3 4 5 6 
+var_8bit 255
+var_16bit 255
+var_32bit 255
+var_float 255.000000
+array 
+255 255 255 255 255 255 
+var_8bit 8
+var_16bit 16
+var_32bit 32
+var_float 3.140000
+array 
+1 2 3 4 5 6 
+var_8bit 8
+var_16bit 16
+var_32bit 32
+var_float 3.140000
+array 
+1 2 3 4 5 6 
+var_8bit 8
+var_16bit 16
+var_32bit 32
+var_float 3.000000
+array 
+1 2 3 4 5 6 
