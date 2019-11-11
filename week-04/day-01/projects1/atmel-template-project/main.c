@@ -49,7 +49,8 @@ void init() {
     // TODO: read the values from the EEPROM to the variables
 	var_8bit = eeprom_read_byte((uint8_t*) BELA);
 	var_16bit = eeprom_read_word((uint16_t*) GAZSI);
-	var_32bit = eeprom_read_dword((uint32_t*) MARCSI);
+	var_32bit = eeprom_read_
+	((uint32_t*) MARCSI);
 	var_float = eeprom_read_float((float*) JUCI);
 	eeprom_read_block((void*) array, (const void*) JOCO, 6);
 #endif
