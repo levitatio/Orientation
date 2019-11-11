@@ -39,18 +39,18 @@ void init() {
 #ifdef WRITE_DEFAULTS_TO_EEPROM
     // TODO: write the default values of the variables to the EEPROM
 	eeprom_update_byte((uint8_t*) BELA, var_8bit);
-	eeprom_update_byte((uint16_t*) GAZSI, var_16bit);
-	eeprom_update_byte((uint32_t*) MARCSI, var_32bit);
-	eeprom_update_byte((float*) JUCI, var_float);
+	eeprom_update_word((uint16_t*) GAZSI, var_16bit);
+	eeprom_update_dword((uint32_t*) MARCSI, var_32bit);
+	eeprom_update_float((float*) JUCI, var_float);
 	eeprom_update_block((void*) array, (const void*) JOCO, 6);
 #endif
 
 #ifdef READ_FROM_EEPROM
     // TODO: read the values from the EEPROM to the variables
 	var_8bit = eeprom_read_byte((uint8_t*) BELA);
-	var_16bit = eeprom_read_byte((uint16_t*) GAZSI);
-	var_32bit = eeprom_read_byte((uint32_t*) MARCSI);
-	var_float = eeprom_read_byte((float*) JUCI);
+	var_16bit = eeprom_read_word((uint16_t*) GAZSI);
+	var_32bit = eeprom_read_dword((uint32_t*) MARCSI);
+	var_float = eeprom_read_float((float*) JUCI);
 	eeprom_read_block((void*) array, (const void*) JOCO, 6);
 #endif
 }
