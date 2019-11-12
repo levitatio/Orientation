@@ -1,0 +1,275 @@
+
+UART_one_character.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  000001c4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000170  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  000001c4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001f4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  00000234  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000007ef  00000000  00000000  0000026c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000749  00000000  00000000  00000a5b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000027d  00000000  00000000  000011a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000094  00000000  00000000  00001424  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000409  00000000  00000000  000014b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000106  00000000  00000000  000018c1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000019c7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 36 00 	jmp	0x6c	; 0x6c <__ctors_end>
+   4:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+   8:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+   c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  10:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  14:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  18:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  1c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  20:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  24:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  28:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  2c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  30:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  34:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  38:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  3c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  40:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  44:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  48:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  4c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  50:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  54:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  58:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  5c:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  60:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  64:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+  68:	0c 94 40 00 	jmp	0x80	; 0x80 <__bad_interrupt>
+
+0000006c <__ctors_end>:
+  6c:	11 24       	eor	r1, r1
+  6e:	1f be       	out	0x3f, r1	; 63
+  70:	cf ef       	ldi	r28, 0xFF	; 255
+  72:	d4 e0       	ldi	r29, 0x04	; 4
+  74:	de bf       	out	0x3e, r29	; 62
+  76:	cd bf       	out	0x3d, r28	; 61
+  78:	0e 94 a5 00 	call	0x14a	; 0x14a <main>
+  7c:	0c 94 b6 00 	jmp	0x16c	; 0x16c <_exit>
+
+00000080 <__bad_interrupt>:
+  80:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000084 <UART_Init>:
+
+#define F_CPU	16000000	// This definition tells to _delay_ms() that the CPU runs at 16MHz
+#include <util/delay.h>		// This header contains the _delay_ms() function
+
+void UART_Init()
+{
+  84:	cf 93       	push	r28
+  86:	df 93       	push	r29
+  88:	cd b7       	in	r28, 0x3d	; 61
+  8a:	de b7       	in	r29, 0x3e	; 62
+	// 9600 Baud rate  UBRRn = 103, error = 0.2%  at U2Xn = 1
+	// 9600 Baud rate  UBRRn = 207, error = 0.2%  at U2Xn = 0
+	//TODO:
+	// At first set the baud rate to 9600
+	// The CPU clock frequency is 16MHz
+	UBRR0 = 103;
+  8c:	84 ec       	ldi	r24, 0xC4	; 196
+  8e:	90 e0       	ldi	r25, 0x00	; 0
+  90:	27 e6       	ldi	r18, 0x67	; 103
+  92:	30 e0       	ldi	r19, 0x00	; 0
+  94:	fc 01       	movw	r30, r24
+  96:	31 83       	std	Z+1, r19	; 0x01
+  98:	20 83       	st	Z, r18
+	// Set the proper Baud rate
+	UCSR0A = 0;
+  9a:	80 ec       	ldi	r24, 0xC0	; 192
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	fc 01       	movw	r30, r24
+  a0:	10 82       	st	Z, r1
+	
+	//TODO:
+	// Set the following frame format: 8N1
+	// Set the one stop bit
+	UCSR0C |= (0 << USBS0);
+  a2:	82 ec       	ldi	r24, 0xC2	; 194
+  a4:	90 e0       	ldi	r25, 0x00	; 0
+  a6:	22 ec       	ldi	r18, 0xC2	; 194
+  a8:	30 e0       	ldi	r19, 0x00	; 0
+  aa:	f9 01       	movw	r30, r18
+  ac:	20 81       	ld	r18, Z
+  ae:	fc 01       	movw	r30, r24
+  b0:	20 83       	st	Z, r18
+	// Set char size to 8 bit
+	UCSR0C |= (0b11 << UCSZ00);
+  b2:	82 ec       	ldi	r24, 0xC2	; 194
+  b4:	90 e0       	ldi	r25, 0x00	; 0
+  b6:	22 ec       	ldi	r18, 0xC2	; 194
+  b8:	30 e0       	ldi	r19, 0x00	; 0
+  ba:	f9 01       	movw	r30, r18
+  bc:	20 81       	ld	r18, Z
+  be:	26 60       	ori	r18, 0x06	; 6
+  c0:	fc 01       	movw	r30, r24
+  c2:	20 83       	st	Z, r18
+	
+	//TODO:
+	// Enable receiver and transmitter
+	// Enable TX
+    UCSR0B |= (1 << TXEN0);
+  c4:	81 ec       	ldi	r24, 0xC1	; 193
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	21 ec       	ldi	r18, 0xC1	; 193
+  ca:	30 e0       	ldi	r19, 0x00	; 0
+  cc:	f9 01       	movw	r30, r18
+  ce:	20 81       	ld	r18, Z
+  d0:	28 60       	ori	r18, 0x08	; 8
+  d2:	fc 01       	movw	r30, r24
+  d4:	20 83       	st	Z, r18
+	//TODO:
+	// Enable RX
+	UCSR0B |= (1 << RXEN0);
+  d6:	81 ec       	ldi	r24, 0xC1	; 193
+  d8:	90 e0       	ldi	r25, 0x00	; 0
+  da:	21 ec       	ldi	r18, 0xC1	; 193
+  dc:	30 e0       	ldi	r19, 0x00	; 0
+  de:	f9 01       	movw	r30, r18
+  e0:	20 81       	ld	r18, Z
+  e2:	20 61       	ori	r18, 0x10	; 16
+  e4:	fc 01       	movw	r30, r24
+  e6:	20 83       	st	Z, r18
+	
+	// UDR0 will transmit and receive data
+}
+  e8:	00 00       	nop
+  ea:	df 91       	pop	r29
+  ec:	cf 91       	pop	r28
+  ee:	08 95       	ret
+
+000000f0 <UART_SendCharacter>:
+
+void UART_SendCharacter(char character)
+{
+  f0:	cf 93       	push	r28
+  f2:	df 93       	push	r29
+  f4:	1f 92       	push	r1
+  f6:	cd b7       	in	r28, 0x3d	; 61
+  f8:	de b7       	in	r29, 0x3e	; 62
+  fa:	89 83       	std	Y+1, r24	; 0x01
+	// Write this function, which can send a character through UART will polling method
+	// See page 247 of the datasheet for hints, be aware that the code in the datasheet has a problem :)
+	//---------------------------------
+	//TODO:
+	// Wait for empty buffer
+	while (!( UCSR0A & (1<<UDRE0))) { }
+  fc:	00 00       	nop
+  fe:	80 ec       	ldi	r24, 0xC0	; 192
+ 100:	90 e0       	ldi	r25, 0x00	; 0
+ 102:	fc 01       	movw	r30, r24
+ 104:	80 81       	ld	r24, Z
+ 106:	88 2f       	mov	r24, r24
+ 108:	90 e0       	ldi	r25, 0x00	; 0
+ 10a:	80 72       	andi	r24, 0x20	; 32
+ 10c:	99 27       	eor	r25, r25
+ 10e:	89 2b       	or	r24, r25
+ 110:	b1 f3       	breq	.-20     	; 0xfe <UART_SendCharacter+0xe>
+	
+	//TODO:
+	// Put data to buffer
+	UDR0 = character;
+ 112:	86 ec       	ldi	r24, 0xC6	; 198
+ 114:	90 e0       	ldi	r25, 0x00	; 0
+ 116:	29 81       	ldd	r18, Y+1	; 0x01
+ 118:	fc 01       	movw	r30, r24
+ 11a:	20 83       	st	Z, r18
+}
+ 11c:	00 00       	nop
+ 11e:	0f 90       	pop	r0
+ 120:	df 91       	pop	r29
+ 122:	cf 91       	pop	r28
+ 124:	08 95       	ret
+
+00000126 <UART_GetCharacter>:
+
+char UART_GetCharacter()
+{
+ 126:	cf 93       	push	r28
+ 128:	df 93       	push	r29
+ 12a:	cd b7       	in	r28, 0x3d	; 61
+ 12c:	de b7       	in	r29, 0x3e	; 62
+	// Write this function, which waits for a character and returns when one is received
+	// See page 249 of the datasheet for hints, be aware that the code in the datasheet has a problem :)
+	//---------------------------------
+	//TODO:
+	// Wait for data received
+	while (!(UCSR0A & (1<<RXC0))) {}
+ 12e:	00 00       	nop
+ 130:	80 ec       	ldi	r24, 0xC0	; 192
+ 132:	90 e0       	ldi	r25, 0x00	; 0
+ 134:	fc 01       	movw	r30, r24
+ 136:	80 81       	ld	r24, Z
+ 138:	88 23       	and	r24, r24
+ 13a:	d4 f7       	brge	.-12     	; 0x130 <UART_GetCharacter+0xa>
+	//TODO:
+	// Get data from buffer
+	return (char)UDR0;
+ 13c:	86 ec       	ldi	r24, 0xC6	; 198
+ 13e:	90 e0       	ldi	r25, 0x00	; 0
+ 140:	fc 01       	movw	r30, r24
+ 142:	80 81       	ld	r24, Z
+}
+ 144:	df 91       	pop	r29
+ 146:	cf 91       	pop	r28
+ 148:	08 95       	ret
+
+0000014a <main>:
+
+int main(void)
+{
+ 14a:	cf 93       	push	r28
+ 14c:	df 93       	push	r29
+ 14e:	1f 92       	push	r1
+ 150:	cd b7       	in	r28, 0x3d	; 61
+ 152:	de b7       	in	r29, 0x3e	; 62
+	char character;
+	//Don't forget to call the init function :)
+	UART_Init();
+ 154:	0e 94 42 00 	call	0x84	; 0x84 <UART_Init>
+
+	// Loop that runs forever
+	while (1) {
+		// Receive a character
+		character = UART_GetCharacter();
+ 158:	0e 94 93 00 	call	0x126	; 0x126 <UART_GetCharacter>
+ 15c:	89 83       	std	Y+1, r24	; 0x01
+		// Send the character back
+		if (character == 'b') { 
+ 15e:	89 81       	ldd	r24, Y+1	; 0x01
+ 160:	82 36       	cpi	r24, 0x62	; 98
+ 162:	d1 f7       	brne	.-12     	; 0x158 <main+0xe>
+			UART_SendCharacter(character);
+ 164:	89 81       	ldd	r24, Y+1	; 0x01
+ 166:	0e 94 78 00 	call	0xf0	; 0xf0 <UART_SendCharacter>
+		}
+	}
+ 16a:	f6 cf       	rjmp	.-20     	; 0x158 <main+0xe>
+
+0000016c <_exit>:
+ 16c:	f8 94       	cli
+
+0000016e <__stop_program>:
+ 16e:	ff cf       	rjmp	.-2      	; 0x16e <__stop_program>
