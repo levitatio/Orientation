@@ -11,7 +11,6 @@
 //TODO: Create the circular buffer with the length of RX_CIRC_BUFF_LEN
 char c_buffer[RX_CIRC_BUFF_LEN];
 
-
 //TODO: Create the head pointer of the buffer
 char* g_head_p;
 //TODO: Create the tail pointer of the buffer
@@ -21,10 +20,26 @@ char* g_write_p;
 //TODO: Create the read pointer of the buffer
 char* g_read_p;
 
+// In case of zero is false, anyway true
+int readable (char* read_p, char* write_p)
+{
+	if (write_p == read_p){
+		return 0;
+	}
+	return 1;
+}
+int writeable (char* read_p, char* write_p)
+{
+	if ((write_p == read_p - 1) || ((write_p == g_tail_p) && (read_p == g_head_p))) {
+		return 0;
+	}
+	return 1;
+}
+
 ISR(USART_RX_vect) {
 	//TODO:
 	// Put received character into the circular buffer
-	if ((g_write_p != g_read_p - 1) && !((g_write_p == g_tail_p) && (g_read_p == g_head_p))){
+	if (writeable(g_read_p, g_write_p)){
 		*g_write_p = UDR0;
 		
 		//TODO:
@@ -71,7 +86,7 @@ void UART_Init() {
 
 	//TODO:
 	// Initialize circular buffer pointers, they should point to the head of the buffer
-	g_write_p = c_buffer + 1;
+	g_write_p = c_buffer;
 	g_read_p = c_buffer;
 	g_head_p = c_buffer;
 	g_tail_p = c_buffer + RX_CIRC_BUFF_LEN - 1;
@@ -99,7 +114,8 @@ void UART_SendCharacter(char character) {
 char UART_GetCharacter() {
 	//TODO:
 	// Wait for data in the circular buffer, this can be detected if the write and read pointers are pointing to the same memory block
-	while ((g_read_p == g_write_p - 1) || ((g_read_p == g_tail_p) && (g_write_p == g_head_p))) {}
+	
+	while (!readable(g_read_p, g_write_p)) {}
 	//TODO:
 	// Save the data to a temporary variable
 	char temp = *g_read_p; 
@@ -138,6 +154,7 @@ int main(void) {
 	// Loop that runs forever
 	while (1) {
 		// With gets and puts create a loopback, use the buffer variable!
+				
 		gets(buffer);
 		_delay_ms(50);
 		puts(buffer);
