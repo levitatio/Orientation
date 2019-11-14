@@ -4,9 +4,6 @@
 #include <stdio.h>
 #include <avr/interrupt.h>
 
-#define F_CPU 16000000UL
-#include <avr/delay.h>
-
 #define LED_DDR			DDRB
 #define LED_DDR_POS		DDRB5
 #define LED_PIN			PINB
@@ -16,6 +13,8 @@
 
 void system_init()
 {
+	DDRB |= 1 << PORTB5;
+	
 	//TODO
 	// Call the TWI driver init function
 	TWI_init();
@@ -32,18 +31,22 @@ int main(void)
 	system_init();
 
 	printf("System initialized\n");
-
+	uint32_t counter = 0;
 	// Infinite loop
-	while (1) {
+	while (counter < 0xffff) {
 		//TODO
 		//Write the temperature frequently.
-
-		//TODO
-		//Advanced: Don't use delay, use timer.
-
-		//TODO
-		//Blink the led to make sure the code is running
-
+		_delay_ms(5);
+		if ((counter % 0xff) == 0){
+			
+			printf("Temp: %d\n", TWI_communicate(TC74_ADDRESS));
+			//TODO
+			//Advanced: Don't use delay, use timer.
+			PORTB ^= (1 << PORTB5);
+			//TODO
+			//Blink the led to make sure the code is running
+		}
+		counter++;
 	}
 }
 
